@@ -622,11 +622,9 @@
     if (!sessionId) return showError('Invalid session link.');
 
     try {
-      const url = `https://api.airtable.com/v0/${AIRTABLE_BASE}/Sessions?maxRecords=50`;
-      const res = await fetch(url, {
-        headers: { 'Authorization': `Bearer ${AIRTABLE_TOKEN}` }
-      });
-
+      const url = `https://hs-airtable-proxy.connect-d38.workers.dev`;
+      const res = await fetch(url);
+       
       if (!res.ok) throw new Error(`API error: ${res.status}`);
 
       const data = await res.json();
