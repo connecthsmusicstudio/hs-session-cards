@@ -435,8 +435,8 @@
   }
 
   // Extract session ID number from slug
-  function getSessionId(slug) {
-    return slug ? slug.split('-')[0] : null;
+ function getSessionId(slug) {
+    return slug ? slug : null;
   }
 
   // Format date nicely
@@ -632,7 +632,11 @@
         return showError('No sessions found.');
       }
 
-      const record = data.records.find(r => String(r.fields['Session ID']) === String(sessionId));
+      const record = data.records.find(r => {
+  if (!r.fields['Client Name'] || !r.fields['Session Date']) return false;
+  const expectedSlug = r.fields['URL'] ? r.fields['URL'].replace('/session/', '') : '';
+  return expectedSlug === sessionId;
+});
       if (!record) return showError('This session card doesn\'t exist yet.');
 
       renderCard(record);
