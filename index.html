@@ -525,42 +525,42 @@
           <p class="client-name">${f['Client Name'] || ''}</p>
           ${f['Client name (secondary)'] ? `<p class="client-name-secondary">${f['Client name (secondary)']}</p>` : '<div style="margin-bottom:20px;"></div>'}
 
-          <p class="section-label">Your voice, by the numbers</p>
+          <p class="section-label">Your voice, by the numbers · 你的声音数据</p>
 
           <div class="stats-grid">
             <a class="stat gold" href="${statLink('highest-note')}" target="_blank">
-              <span class="stat-lbl">Highest note</span>
+              <span class="stat-lbl">Highest note <span style="opacity:0.6;font-size:7px;">最高音</span></span>
               <span class="stat-val">${f['Highest Note'] || '—'}</span>
               <span class="stat-hint">tap to learn</span>
             </a>
             <a class="stat gold" href="${statLink('lowest-note')}" target="_blank">
-              <span class="stat-lbl">Lowest note</span>
+              <span class="stat-lbl">Lowest note <span style="opacity:0.6;font-size:7px;">最低音</span></span>
               <span class="stat-val">${f['Lowest Note'] || '—'}</span>
               <span class="stat-hint">tap to learn</span>
             </a>
             <a class="stat ${stat3Class}" href="${statLink('voice-type')}" target="_blank">
-              <span class="stat-lbl">${stat3Label}</span>
+              <span class="stat-lbl">Voice type <span style="opacity:0.6;font-size:7px;">音色类型</span></span>
               <span class="stat-val" style="font-size:${String(stat3Value).length > 5 ? '13px' : '21px'};padding-top:${String(stat3Value).length > 5 ? '4px' : '0'}">${stat3Value}</span>
               <span class="stat-hint">tap to learn</span>
             </a>
             <div class="stat neutral">
-              <span class="stat-lbl">Takes</span>
+              <span class="stat-lbl">Takes <span style="opacity:0.6;font-size:7px;">录音次数</span></span>
               <span class="stat-val">${f['Takes Recorded'] || '—'}</span>
             </div>
             <a class="stat gold" href="${statLink('the-flip')}" target="_blank">
-              <span class="stat-lbl">The flip</span>
+              <span class="stat-lbl">The flip <span style="opacity:0.6;font-size:7px;">换声点</span></span>
               <span class="stat-val">${f['The Flip'] || '—'}</span>
               <span class="stat-hint">tap to learn</span>
             </a>
             <div class="stat teal">
-              <span class="stat-lbl">${stat6Label}</span>
+              <span class="stat-lbl">${stat6Label} <span style="opacity:0.6;font-size:7px;">${isProduction ? '和声' : '难度'}</span></span>
               <span class="stat-val" style="font-size:${String(stat6Value).length > 5 ? '13px' : '21px'};padding-top:${String(stat6Value).length > 5 ? '4px' : '0'}">${stat6Value}</span>
             </div>
           </div>
 
           ${f["Producer's Moment"] ? `
           <div class="quote-wrap">
-            <p class="quote">"${f["Producer's moment"]}"</p>
+            <p class="quote">"${f["Producer's Moment"]}"</p>
             <span class="quote-attr">— Your coach @ HS Music Studio</span>
           </div>` : ''}
 
