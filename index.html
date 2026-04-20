@@ -468,30 +468,30 @@
   // Render the full card
   function renderCard(r) {
     const f = r.fields;
-    const sessionType = f['Session type'] || 'Studio Experience';
+    const sessionType = f['Session Type'] || 'Studio Experience';
     const isProduction = sessionType === 'Production';
     const days = daysSince(f['Session date']);
-    const rebookActive = f['Rebook offer active'] !== false;
+    const rebookActive = f['Rebook Offer Active'] !== false;
     const daysLeft = 7 - days;
     const rebookExpired = days > 7 || !rebookActive;
 
     // Hero photo
-    const photoStyle = f['Session photo URL']
-      ? `background-image: url('${f['Session photo URL']}');`
+    const photoStyle = f['Session Photo URL']
+      ? `background-image: url('${f['Session Photo URL']}');`
       : '';
 
     // Stat 3: voice type (Studio) or tracks recorded (Production)
     const stat3Label = isProduction ? 'Tracks recorded' : 'Voice type';
     const stat3Value = isProduction
-      ? (f['Tracks recorded'] || '—')
-      : (f['Voice type'] || '—');
+      ? (f['Tracks Recorded'] || '—')
+      : (f['Voice Type'] || '—');
     const stat3Class = 'purple';
 
     // Stat 6: song difficulty (Studio) or harmonies captured (Production)
     const stat6Label = isProduction ? 'Harmonies' : 'Difficulty';
     const stat6Value = isProduction
       ? (f['Harmonies captured'] || '—')
-      : (f['Song difficulty'] || '—');
+      : (f['Song Difficulty'] || '—');
 
     // Countdown text
     let countdownHtml = '';
@@ -506,7 +506,7 @@
         <div class="hero">
           ${photoStyle ? `<div class="hero-photo" style="${photoStyle}"></div><div class="hero-overlay"></div>` : '<span class="hero-bg-text">HS</span>'}
           <span class="hero-tag">${sessionType}</span>
-          <span class="hero-date">${formatDate(f['Session date'])}${f['Room'] ? ' · ' + f['Room'] : ''}</span>
+          <span class="hero-date">${formatDate(f['Session Date'])}${f['Room'] ? ' · ' + f['Room'] : ''}</span>
           <div class="hero-content">
             <div class="hero-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c49a6c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -516,7 +516,7 @@
                 <line x1="8" y1="21" x2="16" y2="21"/>
               </svg>
             </div>
-            <span class="hero-song">${f['Song / project title'] || ''}</span>
+            <span class="hero-song">${f['Song / Project Title'] || ''}</span>
           </div>
         </div>
 
@@ -530,12 +530,12 @@
           <div class="stats-grid">
             <a class="stat gold" href="${statLink('highest-note')}" target="_blank">
               <span class="stat-lbl">Highest note</span>
-              <span class="stat-val">${f['Highest note'] || '—'}</span>
+              <span class="stat-val">${f['Highest Note'] || '—'}</span>
               <span class="stat-hint">tap to learn</span>
             </a>
             <a class="stat gold" href="${statLink('lowest-note')}" target="_blank">
               <span class="stat-lbl">Lowest note</span>
-              <span class="stat-val">${f['Lowest note'] || '—'}</span>
+              <span class="stat-val">${f['Lowest Note'] || '—'}</span>
               <span class="stat-hint">tap to learn</span>
             </a>
             <a class="stat ${stat3Class}" href="${statLink('voice-type')}" target="_blank">
@@ -545,11 +545,11 @@
             </a>
             <div class="stat neutral">
               <span class="stat-lbl">Takes</span>
-              <span class="stat-val">${f['Takes recorded'] || '—'}</span>
+              <span class="stat-val">${f['Takes Recorded'] || '—'}</span>
             </div>
             <a class="stat gold" href="${statLink('the-flip')}" target="_blank">
               <span class="stat-lbl">The flip</span>
-              <span class="stat-val">${f['The flip'] || '—'}</span>
+              <span class="stat-val">${f['The Flip'] || '—'}</span>
               <span class="stat-hint">tap to learn</span>
             </a>
             <div class="stat teal">
@@ -558,7 +558,7 @@
             </div>
           </div>
 
-          ${f["Producer's moment"] ? `
+          ${f["Producer's Moment"] ? `
           <div class="quote-wrap">
             <p class="quote">"${f["Producer's moment"]}"</p>
             <span class="quote-attr">— Your coach @ HS Music Studio</span>
