@@ -622,7 +622,7 @@
     if (!sessionId) return showError('Invalid session link.');
 
     try {
-      const url = `const url = `https://api.airtable.com/v0/${AIRTABLE_BASE}/Sessions?maxRecords=50`;`;
+      const url = `https://api.airtable.com/v0/${AIRTABLE_BASE}/Sessions?maxRecords=50`;
       const res = await fetch(url, {
         headers: { 'Authorization': `Bearer ${AIRTABLE_TOKEN}` }
       });
@@ -631,10 +631,13 @@
 
       const data = await res.json();
       if (!data.records || data.records.length === 0) {
-        return showError('This session card doesn\'t exist yet.');
+        return showError('No sessions found.');
       }
 
-      renderCard(data.records[0]);
+      const record = data.records.find(r => String(r.fields['Session ID']) === String(sessionId));
+      if (!record) return showError('This session card doesn\'t exist yet.');
+
+      renderCard(record);
 
     } catch (err) {
       showError('Something went wrong loading this card.<br>Please try again shortly.');
