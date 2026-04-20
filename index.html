@@ -468,6 +468,16 @@
   // Render the full card
   function renderCard(r) {
     const f = r.fields;
+    const voiceMap = {
+  'Soprano': '女高音', 'Mezzo-soprano': '次女高音',
+  'Alto': '女低音', 'Tenor': '男高音',
+  'Baritone': '男中音', 'Bass': '男低音',
+  'Undetermined': '待定'
+};
+const diffMap = {
+  'Beginner': '初级', 'Intermediate': '中级',
+  'Advanced': '高级', 'Insane': '地狱级'
+};
     const sessionType = f['Session Type'] || 'Studio Experience';
     const isProduction = sessionType === 'Production';
     const days = daysSince(f['Session Date']);
@@ -484,14 +494,14 @@
     const stat3Label = isProduction ? 'Tracks recorded' : 'Voice type';
     const stat3Value = isProduction
       ? (f['Tracks Recorded'] || '—')
-      : (f['Voice Type'] || '—');
+      : (f['Voice Type'] ? `${f['Voice Type']} ${voiceMap[f['Voice Type']] || ''}` : '—');
     const stat3Class = 'purple';
 
     // Stat 6: song difficulty (Studio) or harmonies captured (Production)
     const stat6Label = isProduction ? 'Harmonies' : 'Difficulty';
     const stat6Value = isProduction
       ? (f['Harmonies captured'] || '—')
-      : (f['Song Difficulty'] || '—');
+      : (f['Song Difficulty'] ? `${f['Song Difficulty']} ${diffMap[f['Song Difficulty']] || ''}` : '—');
 
     // Countdown text
     let countdownHtml = '';
