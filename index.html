@@ -13,7 +13,38 @@
      BOOKING_URL     → https://hsmusicstudio.as.me
      GOOGLE_PLACE_ID → ChIJN-FXEK8Z2jERRUr7yaL8_yU
   ─────────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes zoomIn {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(196,154,108,0); }
+  50% { box-shadow: 0 0 0 6px rgba(196,154,108,0.08); }
+}
 
+.hero-photo { animation: zoomIn 1.8s ease-out forwards; }
+.client-name { animation: fadeUp 0.6s ease-out 0.3s both; }
+.client-name-secondary { animation: fadeUp 0.6s ease-out 0.4s both; }
+.section-label { animation: fadeIn 0.6s ease-out 0.5s both; }
+.stats-grid .stat:nth-child(1) { animation: fadeUp 0.5s ease-out 0.55s both; }
+.stats-grid .stat:nth-child(2) { animation: fadeUp 0.5s ease-out 0.65s both; }
+.stats-grid .stat:nth-child(3) { animation: fadeUp 0.5s ease-out 0.75s both; }
+.stats-grid .stat:nth-child(4) { animation: fadeUp 0.5s ease-out 0.85s both; }
+.stats-grid .stat:nth-child(5) { animation: fadeUp 0.5s ease-out 0.95s both; }
+.stats-grid .stat:nth-child(6) { animation: fadeUp 0.5s ease-out 1.05s both; }
+.quote-wrap { animation: fadeUp 0.6s ease-out 1.15s both; }
+.cta-box { animation: fadeUp 0.6s ease-out 1.25s both; }
+.footer-row { animation: fadeIn 0.6s ease-out 1.4s both; }
+.logo { animation: fadeIn 0.6s ease-out 1.5s both; }
+.cta-box:not(.expired) { animation: fadeUp 0.6s ease-out 1.25s both, pulse 3s ease-in-out 2s infinite; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
