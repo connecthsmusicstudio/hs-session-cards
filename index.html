@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>HS Music Studio — Session Card</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ─── CONFIG NOTE ───────────────────────────────────────────
+     Replace the 3 values below with your real credentials:
+     AIRTABLE_TOKEN  → pathARNIUbq4623Wq.88fd55755fa545b7520c8e104204dedb1ba99eb8f6147737b23fc15de842166b
+     AIRTABLE_BASE   → appIUkpbWk0Y6aAUG
+     BOOKING_URL     → https://hsmusicstudio.as.me
+     GOOGLE_PLACE_ID → ChIJN-FXEK8Z2jERRUr7yaL8_yU
+  ─────────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes zoomIn {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(196,154,108,0); }
+  50% { box-shadow: 0 0 0 6px rgba(196,154,108,0.08); }
+}
+
+.hero-photo { animation: zoomIn 1.8s ease-out forwards; }
+.client-name { animation: fadeUp 0.6s ease-out 0.3s both; }
+.client-name-secondary { animation: fadeUp 0.6s ease-out 0.4s both; }
+.section-label { animation: fadeIn 0.6s ease-out 0.5s both; }
+.stats-grid .stat:nth-child(1) { animation: fadeUp 0.5s ease-out 0.55s both; }
+.stats-grid .stat:nth-child(2) { animation: fadeUp 0.5s ease-out 0.65s both; }
+.stats-grid .stat:nth-child(3) { animation: fadeUp 0.5s ease-out 0.75s both; }
+.stats-grid .stat:nth-child(4) { animation: fadeUp 0.5s ease-out 0.85s both; }
+.stats-grid .stat:nth-child(5) { animation: fadeUp 0.5s ease-out 0.95s both; }
+.stats-grid .stat:nth-child(6) { animation: fadeUp 0.5s ease-out 1.05s both; }
+.quote-wrap { animation: fadeUp 0.6s ease-out 1.15s both; }
+.cta-box { animation: fadeUp 0.6s ease-out 1.25s both; }
+.footer-row { animation: fadeIn 0.6s ease-out 1.4s both; }
+.logo { animation: fadeIn 0.6s ease-out 1.5s both; }
+@keyframes gentleBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.cta-box:not(.expired) { animation: fadeUp 0.6s ease-out 1.25s both, gentleBounce 0.6s ease-in-out 1.8s 3; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0a0806;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    font-family: 'DM Sans', sans-serif;
+    padding: 0 0 60px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 480px;
+    background: #0d0b08;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    width: 100%;
+    height: 260px;
+    background: #1a1410;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.35;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(13,11,8,0.2) 0%, rgba(13,11,8,0.7) 100%);
+  }
+
+  .hero-bg-text {
+    position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 160px;
+    font-weight: 300;
+    color: rgba(196,154,108,0.05);
+    letter-spacing: -0.05em;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .hero-logo {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    z-index: 2;
+  }
+
+  .hero-tag {
+    position: absolute;
+    top: 64px;
+    left: 20px;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(196,154,108,0.55);
+    font-family: 'DM Sans', sans-serif;
+    z-index: 2;
+  }
+
+  .hero-date {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: rgba(250,248,245,0.25);
+    font-family: 'DM Sans', sans-serif;
+    z-index: 2;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(196,154,108,0.08);
+    border: 0.5px solid rgba(196,154,108,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-song {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: rgba(250,248,245,0.5);
+    letter-spacing: 0.04em;
+  }
+
+  /* ─── BODY ─── */
+  .body {
+    padding: 22px 20px 32px;
+  }
+
+  .client-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    color: #faf8f5;
+    line-height: 1.1;
+  }
+
+  .client-name-secondary {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(250,248,245,0.35);
+    margin: 3px 0 20px;
+    letter-spacing: 0.08em;
+  }
+
+  .section-label {
+    font-size: 8.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(250,248,245,0.25);
+    margin-bottom: 10px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ─── STATS GRID ─── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 7px;
+    margin-bottom: 16px;
+  }
+
+  .stat {
+    background: rgba(250,248,245,0.035);
+    border-radius: 10px;
+    padding: 11px 12px 10px;
+    border: 0.5px solid rgba(250,248,245,0.06);
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    display: block;
+  }
+
+  .stat:hover {
+    background: rgba(250,248,245,0.06);
+  }
+
+  .stat-lbl {
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 5px;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .stat-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 21px;
+    font-weight: 600;
+    display: block;
+    line-height: 1;
+  }
+
+  .stat-hint {
+    font-size: 8px;
+    display: block;
+    margin-top: 4px;
+    opacity: 0.5;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.04em;
+  }
+
+  /* stat colour themes */
+  .gold .stat-lbl { color: rgba(196,154,108,0.55); }
+  .gold .stat-val { color: #c49a6c; }
+  .gold .stat-hint { color: #c49a6c; }
+
+  .purple .stat-lbl { color: rgba(167,139,220,0.55); }
+  .purple .stat-val { color: #a78bdc; }
+  .purple .stat-hint { color: #a78bdc; }
+
+  .teal .stat-lbl { color: rgba(79,191,171,0.55); }
+  .teal .stat-val { color: #4fbfab; }
+  .teal .stat-hint { color: #4fbfab; }
+
+  .neutral .stat-lbl { color: rgba(250,248,245,0.28); }
+  .neutral .stat-val { color: rgba(250,248,245,0.6); }
+  .neutral .stat-hint { color: rgba(250,248,245,0.4); }
+
+  /* ─── PRODUCER'S MOMENT ─── */
+  .quote-wrap {
+    border-left: 1.5px solid rgba(196,154,108,0.3);
+    padding: 11px 15px;
+    margin: 16px 0 18px;
+    background: rgba(196,154,108,0.03);
+    border-radius: 0 10px 10px 0;
+  }
+
+  .quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: rgba(250,248,245,0.75);
+    line-height: 1.6;
+    margin-bottom: 7px;
+  }
+
+  .quote-attr {
+    font-size: 10px;
+    color: rgba(250,248,245,0.25);
+    letter-spacing: 0.08em;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    border: none;
+    border-top: 0.5px solid rgba(250,248,245,0.06);
+    margin: 18px 0;
+  }
+
+  /* ─── REBOOK CTA ─── */
+  .cta-box {
+    background: rgba(196,154,108,0.08);
+    border: 0.5px solid rgba(196,154,108,0.22);
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .cta-box.expired {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .cta-eyebrow {
+    font-size: 9px;
+    color: rgba(250,248,245,0.38);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: 'DM Sans', sans-serif;
+    margin-bottom: 3px;
+  }
+
+  .cta-gift {
+    font-size: 13px;
+    color: #c49a6c;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    margin-bottom: 3px;
+  }
+
+  .cta-countdown {
+    font-size: 9px;
+    color: rgba(196,154,108,0.5);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .cta-countdown.urgent {
+    color: #e07b5a;
+  }
+
+  .btn-rebook {
+    background: #c49a6c;
+    color: #0d0b08;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    padding: 10px 18px;
+    border-radius: 24px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  /* ─── FOOTER BUTTONS ─── */
+  .footer-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .btn-footer {
+    flex: 1;
+    background: rgba(250,248,245,0.04);
+    border: 0.5px solid rgba(250,248,245,0.09);
+    border-radius: 24px;
+    color: rgba(250,248,245,0.45);
+    font-size: 11px;
+    font-family: 'DM Sans', sans-serif;
+    padding: 10px 12px;
+    text-align: center;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    transition: background 0.2s;
+  }
+
+  .btn-footer:hover {
+    background: rgba(250,248,245,0.07);
+  }
+
+  /* ─── LOGO ─── */
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10px;
+    color: rgba(196,154,108,0.22);
+    text-align: center;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  /* ─── LOADING / ERROR STATES ─── */
+  .state-screen {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 40px;
+  }
+
+  .state-icon {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    color: rgba(196,154,108,0.3);
+  }
+
+  .state-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: rgba(250,248,245,0.6);
+    text-align: center;
+  }
+
+  .state-sub {
+    font-size: 12px;
+    color: rgba(250,248,245,0.25);
+    text-align: center;
+    letter-spacing: 0.06em;
+    line-height: 1.7;
+  }
+
+  .loading-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(196,154,108,0.4);
+    display: inline-block;
+    margin: 0 3px;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+
+  .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes pulse {
+    0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1); }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 480px) {
+    .card { max-width: 100%; }
+    .hero { height: 240px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div class="state-screen">
+    <div>
+      <span class="loading-dot"></span>
+      <span class="loading-dot"></span>
+      <span class="loading-dot"></span>
+    </div>
+    <p class="state-title">Loading your session</p>
+  </div>
+</div>
+<div id="share-sheet" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:100;background:rgba(0,0,0,0.7);align-items:flex-end;">
+  <div style="background:#1a1710;border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:480px;margin:0 auto;">
+    <p style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#faf8f5;margin-bottom:6px;">Share your session</p>
+    <p style="font-size:11px;color:rgba(250,248,245,0.35);letter-spacing:0.06em;margin-bottom:20px;font-family:'DM Sans',sans-serif;">TAG US @HSMUSIC.STUDIO · #一日歌手</p>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <button id="sheet-share" style="background:rgba(196,154,108,0.12);border:0.5px solid rgba(196,154,108,0.3);border-radius:12px;padding:14px 16px;color:#c49a6c;font-size:13px;font-family:'DM Sans',sans-serif;text-align:left;cursor:pointer;letter-spacing:0.02em;">Share link — send via WhatsApp, Telegram, IG</button>
+      <button id="sheet-story" style="background:rgba(250,248,245,0.04);border:0.5px solid rgba(250,248,245,0.08);border-radius:12px;padding:14px 16px;color:rgba(250,248,245,0.7);font-size:13px;font-family:'DM Sans',sans-serif;text-align:left;cursor:pointer;letter-spacing:0.02em;">Save Story card — screenshot for IG · TikTok</button>
+      <button id="sheet-copy" style="background:rgba(250,248,245,0.04);border:0.5px solid rgba(250,248,245,0.08);border-radius:12px;padding:14px 16px;color:rgba(250,248,245,0.7);font-size:13px;font-family:'DM Sans',sans-serif;text-align:left;cursor:pointer;letter-spacing:0.02em;">Copy link</button>
+    </div>
+    <button id="sheet-close" style="margin-top:16px;width:100%;background:transparent;border:none;color:rgba(250,248,245,0.25);font-size:12px;font-family:'DM Sans',sans-serif;padding:8px;cursor:pointer;letter-spacing:0.06em;">CLOSE</button>
+  </div>
+</div>
+<script>
+  // ─── YOUR CREDENTIALS ───────────────────────────────────────
+  const AIRTABLE_TOKEN  = 'pathARNIUbq4623Wq.88fd55755fa545b7520c8e104204dedb1ba99eb8f6147737b23fc15de842166b';
+  const AIRTABLE_BASE   = 'appIUkpbWk0Y6aAUG';
+  const BOOKING_URL     = 'https://hsmusicstudio.as.me';
+  const GOOGLE_PLACE_ID = 'ChIJN-FXEK8Z2jERRUr7yaL8_yU';
+  // ────────────────────────────────────────────────────────────
+
+  // Parse slug — handles both /session/slug and /session/slug/stories
+  function getSlug() {
+    const parts = window.location.pathname.split('/session/');
+    if (!parts[1]) return null;
+    return parts[1].replace(/\/stories\/?$/, '').replace(/\/$/, '');
+  }
+
+  function isStoriesRoute() {
+    return /\/stories\/?$/.test(window.location.pathname);
+  }
+
+  // Extract session ID number from slug
+ function getSessionId(slug) {
+    return slug ? slug : null;
+  }
+
+  // Format date nicely
+  function formatDate(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-SG', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  // Calculate days since session
+  function daysSince(dateStr) {
+    if (!dateStr) return 999;
+    const session = new Date(dateStr);
+    const now = new Date();
+    return Math.floor((now - session) / (1000 * 60 * 60 * 24));
+  }
+
+  // Rebook gift by session type
+  function getGift(sessionType) {
+    if (sessionType === 'Production') return 'Free 30-min vocal coaching consult';
+    return 'Complimentary NFC CD (worth $20)';
+  }
+
+  // Render stat "what does this mean?" link
+  function statLink(anchor) {
+    return `https://hsmusicstudio.sg/vocal-guide#${anchor}`;
+  }
+
+  // Render the full card
+  function renderCard(r) {
+    const f = r.fields;
+    const voiceMap = {
+  'Soprano': '女高音', 'Mezzo-soprano': '次女高音',
+  'Alto': '女低音', 'Tenor': '男高音',
+  'Baritone': '男中音', 'Bass': '男低音',
+  'Undetermined': '待定'
+};
+const diffMap = {
+  'Beginner': '初级', 'Intermediate': '中级',
+  'Advanced': '高级', 'Expert': '高级', 'Insane': '地狱级'
+};
+    const sessionType = f['Session Type'] || 'Studio Experience';
+    const isProduction = sessionType === 'Production';
+    const days = daysSince(f['Session Date']);
+    const rebookActive = f['Rebook Offer Active'] !== false;
+    const daysLeft = 7 - days;
+    const rebookExpired = days > 7 || !rebookActive;
+
+    // Hero photo
+    const photoStyle = f['Session Photo URL']
+      ? `background-image: url('${f['Session Photo URL']}');`
+      : '';
+
+    // Stat 3: voice type (Studio) or tracks recorded (Production)
+    const stat3Label = isProduction ? 'Tracks recorded' : 'Voice type';
+    const stat3Value = isProduction
+      ? (f['Tracks Recorded'] || '—')
+      : (f['Voice Type'] ? `${f['Voice Type']} ${voiceMap[f['Voice Type']] || ''}` : '—');
+    const stat3Class = 'purple';
+
+    // Stat 6: song difficulty (Studio) or harmonies captured (Production)
+    const stat6Label = isProduction ? 'Harmonies' : 'Difficulty';
+    const stat6Value = isProduction
+      ? (f['Harmonies captured'] || '—')
+      : (f['Song Difficulty'] ? `${f['Song Difficulty']} ${diffMap[f['Song Difficulty']] || ''}` : '—');
+
+    // Countdown text
+    let countdownHtml = '';
+    if (!rebookExpired) {
+      const urgent = daysLeft <= 3;
+      countdownHtml = `<p class="cta-countdown ${urgent ? 'urgent' : ''}">${daysLeft} day${daysLeft !== 1 ? 's' : ''} remaining</p>`;
+    }
+
+    document.getElementById('app').innerHTML = `
+      <div class="card">
+
+        <div class="hero">
+          ${photoStyle ? `<div class="hero-photo" style="${photoStyle}"></div><div class="hero-overlay"></div>` : '<span class="hero-bg-text">HS</span>'}
+          <div class="hero-logo">
+            <img src="/logo.png" alt="HS Music Studio" style="height:44px;width:auto;object-fit:contain;">
+          </div>
+          <span class="hero-tag">${sessionType === 'Studio Experience' ? 'Studio Experience · 一日歌手' : sessionType}</span>
+          <span class="hero-date">${formatDate(f['Session Date'])}${f['Room'] ? ' · ' + f['Room'] : ''}</span>
+          <div class="hero-content" id="hero-content">
+  <div class="hero-icon" id="hero-icon" style="${f['Session Photo URL'] ? 'opacity:0.15; background:transparent; border-color:rgba(196,154,108,0.15);' : ''}">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c49a6c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="2" width="6" height="12" rx="3"/>
+                <path d="M5 10a7 7 0 0 0 14 0"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+              </svg>
+            </div>
+            <span class="hero-song">${f['Song / Project Title'] || ''}</span>
+          </div>
+        </div>
+
+        <div class="body">
+
+          <p class="client-name">${f['Client Name'] || ''}</p>
+          ${f['Client name (secondary)'] ? `<p class="client-name-secondary">${f['Client name (secondary)']}</p>` : '<div style="margin-bottom:20px;"></div>'}
+
+          <p class="section-label">Your voice · 你的声音数据</p>
+
+          <div class="stats-grid">
+            <a class="stat gold" href="${statLink('highest-note')}" target="_blank">
+              <span class="stat-lbl">Highest note <span style="opacity:0.6;font-size:7px;">最高音</span></span>
+              <span class="stat-val">${f['Highest Note'] || '—'}</span>
+              ${f['Highest Note'] ? '<span class="stat-hint">tap to learn</span>' : ''}
+            </a>
+            <a class="stat gold" href="${statLink('lowest-note')}" target="_blank">
+              <span class="stat-lbl">Lowest note <span style="opacity:0.6;font-size:7px;">最低音</span></span>
+              <span class="stat-val">${f['Lowest Note'] || '—'}</span>
+              ${f['Lowest Note'] ? '<span class="stat-hint">tap to learn</span>' : ''}
+            </a>
+            <a class="stat ${stat3Class}" href="${statLink('voice-type')}" target="_blank">
+              <span class="stat-lbl">Voice type <span style="opacity:0.6;font-size:7px;">声部</span></span>
+              <span class="stat-val" style="font-size:${String(stat3Value).length > 5 ? '13px' : '21px'};padding-top:${String(stat3Value).length > 5 ? '4px' : '0'}">${stat3Value}</span>
+              ${f['Voice Type'] ? '<span class="stat-hint">tap to learn</span>' : ''}
+            </a>
+            <div class="stat neutral">
+              <span class="stat-lbl">Takes <span style="opacity:0.6;font-size:7px;">录音次数</span></span>
+              <span class="stat-val">${f['Takes Recorded'] || '—'}</span>
+            </div>
+            <a class="stat gold" href="${statLink('the-flip')}" target="_blank">
+              <span class="stat-lbl">The flip <span style="opacity:0.6;font-size:7px;">换声点</span></span>
+              <span class="stat-val">${f['The Flip'] || '—'}</span>
+              ${f['The Flip'] ? '<span class="stat-hint">tap to learn</span>' : ''}
+            </a>
+            <div class="stat teal">
+              <span class="stat-lbl">${stat6Label} <span style="opacity:0.6;font-size:7px;">${isProduction ? '和声' : '难度'}</span></span>
+              <span class="stat-val" style="font-size:${String(stat6Value).length > 5 ? '13px' : '21px'};padding-top:${String(stat6Value).length > 5 ? '4px' : '0'}">${stat6Value}</span>
+            </div>
+          </div>
+
+          ${f["Producer's Moment"] ? `
+          <div class="quote-wrap">
+            <p class="quote">"${f["Producer's Moment"]}"</p>
+            <span class="quote-attr">— Your coach @ HS Music Studio</span>
+          </div>` : ''}
+
+          <hr class="divider">
+
+          <div class="cta-box ${rebookExpired ? 'expired' : ''}">
+            <div>
+              <p class="cta-eyebrow">${rebookExpired ? 'See you next time' : 'Rebook within 7 days'}</p>
+              <p class="cta-gift">${rebookExpired ? 'Your card is saved forever' : getGift(sessionType)}</p>
+              ${countdownHtml}
+            </div>
+            ${!rebookExpired ? `<a class="btn-rebook" href="${BOOKING_URL}" target="_blank">Book now</a>` : ''}
+          </div>
+
+          <div class="footer-row">
+  <a class="btn-footer" id="share-btn" href="#">Share this card</a>
+  <a class="btn-footer" href="https://search.google.com/local/writereview?placeid=${GOOGLE_PLACE_ID}" target="_blank">Leave us a review</a>
+</div>
+
+
+          <p class="logo">HS Music Studio</p>
+
+        </div>
+      </div>
+    `;
+
+  // ── wire share sheet (called after renderCard injects #share-btn) ──
+  wireShareSheet();
+  }   // ← end of renderCard()
+
+  function wireShareSheet() {
+    const shareSheet = document.getElementById('share-sheet');
+    const shareBtn   = document.getElementById('share-btn');
+    if (!shareSheet || !shareBtn) return;
+
+    shareBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      shareSheet.style.display = 'flex';
+    });
+
+    document.getElementById('sheet-close').addEventListener('click', function() {
+      shareSheet.style.display = 'none';
+    });
+
+    shareSheet.addEventListener('click', function(e) {
+      if (e.target === shareSheet) shareSheet.style.display = 'none';
+    });
+
+    document.getElementById('sheet-share').addEventListener('click', function() {
+      shareSheet.style.display = 'none';
+      if (navigator.share) {
+        navigator.share({
+          title: 'My HS Music Studio Session',
+          text: 'Check out my session card from HS Music Studio! 🎙 #一日歌手 @hsmusic.studio',
+          url: window.location.href
+        });
+      } else {
+        navigator.clipboard.writeText(window.location.href);
+        this.textContent = 'Link copied!';
+      }
+    });
+
+    document.getElementById('sheet-copy').addEventListener('click', function() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        this.textContent = '✓ Copied!';
+        setTimeout(() => { this.textContent = 'Copy link'; }, 2000);
+      });
+    });
+
+    document.getElementById('sheet-story').addEventListener('click', function() {
+      shareSheet.style.display = 'none';
+      // Route to stories view — append /stories to current URL
+      const base = window.location.href.split('?')[0].replace(/\/$/, '');
+      window.location.href = base + '/stories';
+    });
+  }
+
+  // ─── STORIES CARD (9:16 full-screen for IG/TikTok screenshot) ───────────
+  function renderStoriesCard(r) {
+    const f = r.fields;
+
+    // Bilingual maps
+    const voiceMap = {
+      'Soprano':     { en:'Soprano',      zh:'女高音' },
+      'Mezzo-soprano':{ en:'Mezzo',        zh:'次女高音' },
+      'Alto':        { en:'Alto',          zh:'女低音' },
+      'Tenor':       { en:'Tenor',         zh:'男高音' },
+      'Baritone':    { en:'Baritone',      zh:'男中音' },
+      'Bass':        { en:'Bass',          zh:'男低音' },
+      'Undetermined':{ en:'Undetermined',  zh:'待定' }
+    };
+    // All 6 stats with bilingual labels
+    const sessionType  = f['Session Type'] || 'Studio Experience';
+    const isProduction = sessionType === 'Production';
+
+    const photoStyle = f['Session Photo URL']
+      ? `background-image:url('${f['Session Photo URL']}');background-size:cover;background-position:center top;`
+      : 'background:#1a1410;';
+
+    // Stat 3: voice type (bilingual) or tracks recorded
+    const voiceEntry  = voiceMap[f['Voice Type']] || null;
+    const stat3Val    = isProduction
+      ? (f['Tracks Recorded'] || '—')
+      : (voiceEntry ? voiceEntry.en : (f['Voice Type'] || '—'));
+    const stat3Zh     = isProduction ? '已录音轨' : (voiceEntry ? voiceEntry.zh : '');
+
+    const diffMap = {
+      'Beginner':'初级','Intermediate':'中级',
+      'Advanced':'高级','Expert':'高级','Insane':'地狱级'
+    };
+
+    // Stat 6: difficulty (bilingual) or harmonies
+    const diffEntry   = f['Song Difficulty'] || '';
+    const stat6Val    = isProduction ? (f['Harmonies captured'] || '—') : (diffEntry || '—');
+    const stat6Zh     = isProduction ? '' : (diffMap[diffEntry] || '');
+
+    // All 6 stats with bilingual labels
+    const stats = [
+      { enLbl:'Highest note', zhLbl:'最高音',   val: f['Highest Note']    || '—', valZh:'',      col:'#c49a6c' },
+      { enLbl:'Lowest note',  zhLbl:'最低音',   val: f['Lowest Note']     || '—', valZh:'',      col:'#c49a6c' },
+      { enLbl: isProduction ? 'Tracks' : 'Voice type',
+        zhLbl: isProduction ? '已录音轨' : '声部',
+        val: stat3Val, valZh: stat3Zh,              col:'#a78bdc' },
+      { enLbl:'Takes',        zhLbl:'录音次数',  val: f['Takes Recorded']  || '—', valZh:'',      col:'rgba(250,248,245,0.6)' },
+      { enLbl:'The flip',     zhLbl:'换声点',   val: f['The Flip']        || '—', valZh:'',      col:'#c49a6c' },
+      { enLbl: isProduction ? 'Harmonies' : 'Difficulty',
+        zhLbl: isProduction ? '和声' : '难度',
+        val: stat6Val, valZh: stat6Zh,              col:'#4fbfab' },
+    ];
+
+    // Replace entire body with full-screen stories view
+    document.body.style.cssText = 'margin:0;padding:0;overflow:hidden;background:#0d0b08;';
+    document.body.innerHTML = `
+      <div id="stories-root" style="
+        position:fixed;inset:0;z-index:9999;
+        display:flex;flex-direction:column;justify-content:space-between;
+        overflow:hidden;font-family:'DM Sans',sans-serif;
+      ">
+
+        <!-- ── BACKGROUND PHOTO ── -->
+        <div style="position:absolute;inset:0;z-index:0;${photoStyle}">
+          <div style="position:absolute;inset:0;background:linear-gradient(
+            175deg,
+            rgba(13,11,8,0.78) 0%,
+            rgba(13,11,8,0.28) 38%,
+            rgba(13,11,8,0.55) 62%,
+            rgba(13,11,8,0.92) 100%
+          );"></div>
+        </div>
+
+        <!-- ── TOP: logo + badge ── -->
+        <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;padding:clamp(1.4rem,7vw,3rem) clamp(1.4rem,7vw,3rem) 0;">
+          <div style="display:flex;align-items:center;">
+            <img src="/logo.png" alt="HS Music Studio" style="height:clamp(36px,8vw,52px);width:auto;object-fit:contain;">
+          </div>
+          <span style="font-size:clamp(0.6rem,2.5vw,0.72rem);letter-spacing:0.12em;text-transform:uppercase;color:#e8c99a;border:1px solid rgba(196,154,108,0.35);border-radius:20px;padding:0.25rem 0.75rem;">
+            ${sessionType === 'Studio Experience' ? 'Studio Experience · 一日歌手' : sessionType}
+          </span>
+        </div>
+
+        <!-- ── MIDDLE: date + name + song ── -->
+        <div style="position:relative;z-index:1;padding:0 clamp(1.4rem,7vw,3rem);flex:1;display:flex;flex-direction:column;justify-content:center;gap:0;">
+
+          <p style="font-size:clamp(0.62rem,2.8vw,0.8rem);letter-spacing:0.18em;text-transform:uppercase;color:#c49a6c;opacity:0.85;margin-bottom:clamp(0.4rem,2vw,0.8rem);">
+            ${f['Session Date'] ? new Date(f['Session Date']).toLocaleDateString('en-SG',{day:'numeric',month:'short',year:'numeric'}) : ''}
+          </p>
+
+          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,13vw,6.5rem);font-weight:300;color:#faf8f5;line-height:0.9;letter-spacing:-0.01em;">
+            ${f['Client Name'] || ''}
+          </p>
+          ${f['Client name (secondary)'] ? `
+          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,6vw,3.2rem);font-weight:300;color:#e8c99a;letter-spacing:0.05em;margin-top:0.18em;">
+            ${f['Client name (secondary)']}
+          </p>` : ''}
+
+          <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(0.9rem,3.8vw,1.4rem);color:#faf8f5;opacity:0.55;margin:clamp(0.6rem,3vw,1.1rem) 0 clamp(1.4rem,6vw,2.2rem);">
+            ${f['Song / Project Title'] || ''}
+          </p>
+
+          <!-- ── 6 STATS: 3 × 2 grid ── -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(0.35rem,1.6vw,0.6rem);">
+            ${stats.map(s => `
+              <div style="
+                display:flex;flex-direction:column;align-items:center;justify-content:center;
+                background:rgba(13,11,8,0.58);
+                border:1px solid rgba(196,154,108,0.16);
+                border-radius:10px;
+                padding:clamp(0.5rem,2.2vw,0.85rem) clamp(0.4rem,2vw,0.7rem);
+              ">
+                <span style="
+                  font-family:'Cormorant Garamond',serif;
+                  font-size:clamp(1.3rem,5.8vw,2.2rem);
+                  font-weight:600;color:${s.col};
+                  line-height:1;text-align:center;
+                ">${s.val}</span>
+                ${s.valZh ? `<span style="font-family:'Cormorant Garamond',serif;font-size:clamp(0.7rem,2.8vw,1rem);color:${s.col};opacity:0.7;line-height:1.2;margin-top:0.1em;">${s.valZh}</span>` : ''}
+                <span style="
+                  font-size:clamp(0.5rem,1.9vw,0.62rem);
+                  letter-spacing:0.07em;text-transform:uppercase;
+                  color:rgba(250,248,245,0.42);
+                  margin-top:0.3rem;text-align:center;line-height:1.3;
+                ">${s.enLbl}<br><span style="opacity:0.75;">${s.zhLbl}</span></span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- ── BOTTOM: coach's moment + handle + CTA ── -->
+        <div style="position:relative;z-index:1;padding:0 clamp(1.4rem,7vw,3rem) clamp(1.4rem,7vw,3rem);">
+
+          ${f["Producer's Moment"] ? `
+          <div style="
+            font-family:'Cormorant Garamond',serif;font-style:italic;
+            font-size:clamp(0.85rem,3.5vw,1.15rem);
+            color:#faf8f5;opacity:0.78;line-height:1.5;
+            margin-bottom:clamp(0.8rem,3.5vw,1.4rem);
+            padding:clamp(0.55rem,2.5vw,0.9rem) clamp(0.75rem,3vw,1.1rem);
+            border-left:2px solid #c49a6c;
+            background:rgba(13,11,8,0.5);
+            border-radius:0 8px 8px 0;
+          ">"${f["Producer's Moment"]}"</div>` : ''}
+
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:0.75rem;">
+            <div style="display:flex;flex-direction:column;gap:0.15rem;">
+              <span style="font-size:clamp(0.6rem,2.4vw,0.72rem);letter-spacing:0.1em;color:#c49a6c;opacity:0.8;">@hsmusic.studio</span>
+              <span style="font-size:clamp(0.55rem,2.1vw,0.65rem);letter-spacing:0.08em;color:rgba(250,248,245,0.3);">sessions.hsmusic.studio</span>
+            </div>
+            <span style="
+              font-size:clamp(0.6rem,2.4vw,0.7rem);letter-spacing:0.07em;
+              color:#0d0b08;background:#c49a6c;
+              border-radius:20px;
+              padding:clamp(0.3rem,1.3vw,0.45rem) clamp(0.7rem,3vw,1rem);
+              font-weight:500;white-space:nowrap;
+            ">Book your session →</span>
+          </div>
+        </div>
+
+        <!-- ── SCREENSHOT HINT (fades after 3s) ── -->
+        <div id="stories-hint" style="
+          position:absolute;bottom:0;left:0;right:0;z-index:10;
+          display:flex;align-items:center;justify-content:center;
+          padding:1rem;
+          background:linear-gradient(to top,rgba(13,11,8,0.85) 0%,transparent 100%);
+          transition:opacity 0.8s ease;
+        ">
+          <p style="
+            font-size:clamp(0.65rem,2.5vw,0.78rem);
+            letter-spacing:0.1em;text-transform:uppercase;
+            color:rgba(250,248,245,0.5);text-align:center;
+          ">📸 Screenshot &amp; share to your Stories · 截图分享</p>
+        </div>
+
+      </div>
+    `;
+
+    // ── Trigger native OS share sheet after 1.5s ──────────────────────────
+    // Give the card time to render before the share dialog covers it.
+    // The user will see the card first, then the share sheet slides up.
+    setTimeout(function() {
+      const cardUrl = window.location.href.replace(/\/stories\/?$/, '');
+      const clientName = f['Client Name'] || 'my';
+      if (navigator.share) {
+        navigator.share({
+          title: clientName + '\'s HS Music Studio Session',
+          text:  '🎙 I just recorded at HS Music Studio! Check out my session card · 刚录完！ #一日歌手 @hsmusic.studio',
+          url:   cardUrl
+        }).catch(function() {
+          // User dismissed — that's fine, the card stays visible for screenshotting
+        });
+      }
+      // Whether share was triggered or not, fade out the screenshot hint
+      const hint = document.getElementById('stories-hint');
+      if (hint) hint.style.opacity = '0';
+    }, 1500);
+  }
+  // ─────────────────────────────────────────────────────────────────────────
+
+  function showError(msg) {
+    document.getElementById('app').innerHTML = `
+      <div class="state-screen">
+        <p class="state-icon">♩</p>
+        <p class="state-title">Session not found</p>
+        <p class="state-sub">${msg}</p>
+      </div>
+    `;
+  }
+
+  async function init() {
+    const slug = getSlug();
+    if (!slug) return showError('No session ID in this URL.');
+
+    const sessionId = getSessionId(slug);
+    if (!sessionId) return showError('Invalid session link.');
+
+    try {
+      const url = `https://hs-airtable-proxy.connect-d38.workers.dev`;
+      const res = await fetch(url);
+       
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+      const data = await res.json();
+      if (!data.records || data.records.length === 0) {
+        return showError('No sessions found.');
+      }
+
+      const record = data.records.find(r => {
+  if (!r.fields['Client Name'] || !r.fields['Session Date']) return false;
+  const expectedSlug = r.fields['URL'] ? r.fields['URL'].replace('/session/', '') : '';
+  return expectedSlug === sessionId;
+});
+      if (!record) return showError('This session card doesn\'t exist yet.');
+
+      if (isStoriesRoute()) {
+        renderStoriesCard(record);
+      } else {
+        renderCard(record);
+      }
+
+    } catch (err) {
+      showError('Something went wrong loading this card.<br>Please try again shortly.');
+      console.error(err);
+    }
+  }
+
+  init();
+</script>
+</body>
+</html>
