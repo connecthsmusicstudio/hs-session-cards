@@ -1,2 +1,2 @@
-/story/:slug /stories.html 200
-/session/:slug /index.html 200
+/story/* /stories.html 200
+/session/* /index.html 200
