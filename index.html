@@ -515,7 +515,7 @@ const diffMap = {
 
         <div class="hero">
           ${photoStyle ? `<div class="hero-photo" style="${photoStyle}"></div><div class="hero-overlay"></div>` : '<span class="hero-bg-text">HS</span>'}
-          <span class="hero-tag">${sessionType}</span>
+          <span class="hero-tag">${sessionType === 'Studio Experience' ? 'Studio Experience · 一日歌手' : sessionType}</span>
           <span class="hero-date">${formatDate(f['Session Date'])}${f['Room'] ? ' · ' + f['Room'] : ''}</span>
           <div class="hero-content" id="hero-content">
   <div class="hero-icon" id="hero-icon" style="${f['Session Photo URL'] ? 'opacity:0.15; background:transparent; border-color:rgba(196,154,108,0.15);' : ''}">
@@ -535,35 +535,35 @@ const diffMap = {
           <p class="client-name">${f['Client Name'] || ''}</p>
           ${f['Client name (secondary)'] ? `<p class="client-name-secondary">${f['Client name (secondary)']}</p>` : '<div style="margin-bottom:20px;"></div>'}
 
-          <p class="section-label">Your voice, by the numbers · 你的声音数据</p>
+          <p class="section-label">Your voice · 你的声音数据</p>
 
           <div class="stats-grid">
             <a class="stat gold" href="${statLink('highest-note')}" target="_blank">
-              <span class="stat-lbl">Highest note <span style="opacity:0.6;font-size:7px;">最高音</span></span>
+              <span class="stat-lbl">Highest note <span style="opacity:0.6;font-size:6px;">最高音</span></span>
               <span class="stat-val">${f['Highest Note'] || '—'}</span>
               <span class="stat-hint">tap to learn</span>
             </a>
             <a class="stat gold" href="${statLink('lowest-note')}" target="_blank">
-              <span class="stat-lbl">Lowest note <span style="opacity:0.6;font-size:7px;">最低音</span></span>
+              <span class="stat-lbl">Lowest note <span style="opacity:0.6;font-size:6px;">最低音</span></span>
               <span class="stat-val">${f['Lowest Note'] || '—'}</span>
               <span class="stat-hint">tap to learn</span>
             </a>
             <a class="stat ${stat3Class}" href="${statLink('voice-type')}" target="_blank">
-              <span class="stat-lbl">Voice type <span style="opacity:0.6;font-size:7px;">音色类型</span></span>
+              <span class="stat-lbl">Voice type <span style="opacity:0.6;font-size:6px;">音色类型</span></span>
               <span class="stat-val" style="font-size:${String(stat3Value).length > 5 ? '13px' : '21px'};padding-top:${String(stat3Value).length > 5 ? '4px' : '0'}">${stat3Value}</span>
               <span class="stat-hint">tap to learn</span>
             </a>
             <div class="stat neutral">
-              <span class="stat-lbl">Takes <span style="opacity:0.6;font-size:7px;">录音次数</span></span>
+              <span class="stat-lbl">Takes <span style="opacity:0.6;font-size:6px;">录音次数</span></span>
               <span class="stat-val">${f['Takes Recorded'] || '—'}</span>
             </div>
             <a class="stat gold" href="${statLink('the-flip')}" target="_blank">
-              <span class="stat-lbl">The flip <span style="opacity:0.6;font-size:7px;">换声点</span></span>
+              <span class="stat-lbl">The flip <span style="opacity:0.6;font-size:6px;">换声点</span></span>
               <span class="stat-val">${f['The Flip'] || '—'}</span>
               <span class="stat-hint">tap to learn</span>
             </a>
             <div class="stat teal">
-              <span class="stat-lbl">${stat6Label} <span style="opacity:0.6;font-size:7px;">${isProduction ? '和声' : '难度'}</span></span>
+              <span class="stat-lbl">${stat6Label} <span style="opacity:0.6;font-size:6px;">${isProduction ? '和声' : '难度'}</span></span>
               <span class="stat-val" style="font-size:${String(stat6Value).length > 5 ? '13px' : '21px'};padding-top:${String(stat6Value).length > 5 ? '4px' : '0'}">${stat6Value}</span>
             </div>
           </div>
