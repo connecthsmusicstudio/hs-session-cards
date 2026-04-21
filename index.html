@@ -621,9 +621,21 @@ const diffMap = {
           </div>
 
           <div class="footer-row">
-            <a class="btn-footer" id="share-btn" href="#">Share this card</a>
-            <a class="btn-footer" href="https://search.google.com/local/writereview?placeid=${GOOGLE_PLACE_ID}" target="_blank">Leave us a review</a>
-          </div>
+  <a class="btn-footer" id="share-btn" href="#">Share this card</a>
+  <a class="btn-footer" href="https://search.google.com/local/writereview?placeid=${GOOGLE_PLACE_ID}" target="_blank">Leave us a review</a>
+</div>
+<div id="share-sheet" style="display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.7);align-items:flex-end;">
+  <div style="background:#1a1710;border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:480px;margin:0 auto;">
+    <p style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#faf8f5;margin-bottom:6px;">Share your session</p>
+    <p style="font-size:11px;color:rgba(250,248,245,0.35);letter-spacing:0.06em;margin-bottom:20px;font-family:'DM Sans',sans-serif;">TAG US @HSMUSICSTUDIO · #一日歌手</p>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <button id="sheet-share" style="background:rgba(196,154,108,0.12);border:0.5px solid rgba(196,154,108,0.3);border-radius:12px;padding:14px 16px;color:#c49a6c;font-size:13px;font-family:'DM Sans',sans-serif;text-align:left;cursor:pointer;letter-spacing:0.02em;">Share link — send via WhatsApp, Telegram, IG</button>
+      <button id="sheet-story" style="background:rgba(250,248,245,0.04);border:0.5px solid rgba(250,248,245,0.08);border-radius:12px;padding:14px 16px;color:rgba(250,248,245,0.7);font-size:13px;font-family:'DM Sans',sans-serif;text-align:left;cursor:pointer;letter-spacing:0.02em;">Save Story card — screenshot for IG · TikTok</button>
+      <button id="sheet-copy" style="background:rgba(250,248,245,0.04);border:0.5px solid rgba(250,248,245,0.08);border-radius:12px;padding:14px 16px;color:rgba(250,248,245,0.7);font-size:13px;font-family:'DM Sans',sans-serif;text-align:left;cursor:pointer;letter-spacing:0.02em;">Copy link</button>
+    </div>
+    <button id="sheet-close" style="margin-top:16px;width:100%;background:transparent;border:none;color:rgba(250,248,245,0.25);font-size:12px;font-family:'DM Sans',sans-serif;padding:8px;cursor:pointer;letter-spacing:0.06em;">CLOSE</button>
+  </div>
+</div>
 
           <p class="logo">HS Music Studio</p>
 
@@ -631,24 +643,47 @@ const diffMap = {
       </div>
     `;
 
-    // Native share
-    document.getElementById('share-btn').addEventListener('click', function(e) {
-      e.preventDefault();
-      if (navigator.share) {
-        navigator.share({
-          title: 'My HS Music Studio Session',
-          text: `Check out my session card from HS Music Studio!`,
-          url: window.location.href
-        });
-      } else {
-        navigator.clipboard.writeText(window.location.href).then(() => {
-          this.textContent = 'Link copied!';
-          setTimeout(() => this.textContent = 'Share this card', 2000);
-        });
-      }
-    });
-  }
+    const shareSheet = document.getElementById('share-sheet');
+const shareBtn = document.getElementById('share-btn');
 
+shareBtn.addEventListener('click', function(e) {
+  e.preventDefault();
+  shareSheet.style.display = 'flex';
+});
+
+document.getElementById('sheet-close').addEventListener('click', function() {
+  shareSheet.style.display = 'none';
+});
+
+shareSheet.addEventListener('click', function(e) {
+  if (e.target === shareSheet) shareSheet.style.display = 'none';
+});
+
+document.getElementById('sheet-share').addEventListener('click', function() {
+  shareSheet.style.display = 'none';
+  if (navigator.share) {
+    navigator.share({
+      title: 'My HS Music Studio Session',
+      text: 'Check out my session card from HS Music Studio! 🎙 #一日歌手',
+      url: window.location.href
+    });
+  } else {
+    navigator.clipboard.writeText(window.location.href);
+    this.textContent = 'Link copied!';
+  }
+});
+
+document.getElementById('sheet-copy').addEventListener('click', function() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    this.textContent = '✓ Copied!';
+    setTimeout(() => this.textContent = 'Copy link', 2000);
+  });
+});
+
+document.getElementById('sheet-story').addEventListener('click', function() {
+  shareSheet.style.display = 'none';
+  window.location.href = window.location.href.replace('/session/', '/story/');
+});
   function showError(msg) {
     document.getElementById('app').innerHTML = `
       <div class="state-screen">
