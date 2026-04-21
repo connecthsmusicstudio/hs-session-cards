@@ -454,7 +454,18 @@
     <p class="state-title">Loading your session</p>
   </div>
 </div>
-
+<div id="share-sheet" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:100;background:rgba(0,0,0,0.7);align-items:flex-end;">
+  <div style="background:#1a1710;border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:480px;margin:0 auto;">
+    <p style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#faf8f5;margin-bottom:6px;">Share your session</p>
+    <p style="font-size:11px;color:rgba(250,248,245,0.35);letter-spacing:0.06em;margin-bottom:20px;font-family:'DM Sans',sans-serif;">TAG US @HSMUSICSTUDIO · #一日歌手</p>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <button id="sheet-share" style="background:rgba(196,154,108,0.12);border:0.5px solid rgba(196,154,108,0.3);border-radius:12px;padding:14px 16px;color:#c49a6c;font-size:13px;font-family:'DM Sans',sans-serif;text-align:left;cursor:pointer;letter-spacing:0.02em;">Share link — send via WhatsApp, Telegram, IG</button>
+      <button id="sheet-story" style="background:rgba(250,248,245,0.04);border:0.5px solid rgba(250,248,245,0.08);border-radius:12px;padding:14px 16px;color:rgba(250,248,245,0.7);font-size:13px;font-family:'DM Sans',sans-serif;text-align:left;cursor:pointer;letter-spacing:0.02em;">Save Story card — screenshot for IG · TikTok</button>
+      <button id="sheet-copy" style="background:rgba(250,248,245,0.04);border:0.5px solid rgba(250,248,245,0.08);border-radius:12px;padding:14px 16px;color:rgba(250,248,245,0.7);font-size:13px;font-family:'DM Sans',sans-serif;text-align:left;cursor:pointer;letter-spacing:0.02em;">Copy link</button>
+    </div>
+    <button id="sheet-close" style="margin-top:16px;width:100%;background:transparent;border:none;color:rgba(250,248,245,0.25);font-size:12px;font-family:'DM Sans',sans-serif;padding:8px;cursor:pointer;letter-spacing:0.06em;">CLOSE</button>
+  </div>
+</div>
 <script>
   // ─── YOUR CREDENTIALS ───────────────────────────────────────
   const AIRTABLE_TOKEN  = 'pathARNIUbq4623Wq.88fd55755fa545b7520c8e104204dedb1ba99eb8f6147737b23fc15de842166b';
@@ -624,18 +635,7 @@ const diffMap = {
   <a class="btn-footer" id="share-btn" href="#">Share this card</a>
   <a class="btn-footer" href="https://search.google.com/local/writereview?placeid=${GOOGLE_PLACE_ID}" target="_blank">Leave us a review</a>
 </div>
-<div id="share-sheet" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;z-index:100;background:rgba(0,0,0,0.7);align-items:flex-end;">
-  <div style="background:#1a1710;border-radius:20px 20px 0 0;padding:24px 20px 40px;width:100%;max-width:480px;margin:0 auto;">
-    <p style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#faf8f5;margin-bottom:6px;">Share your session</p>
-    <p style="font-size:11px;color:rgba(250,248,245,0.35);letter-spacing:0.06em;margin-bottom:20px;font-family:'DM Sans',sans-serif;">TAG US @HSMUSICSTUDIO · #一日歌手</p>
-    <div style="display:flex;flex-direction:column;gap:8px;">
-      <button id="sheet-share" style="background:rgba(196,154,108,0.12);border:0.5px solid rgba(196,154,108,0.3);border-radius:12px;padding:14px 16px;color:#c49a6c;font-size:13px;font-family:'DM Sans',sans-serif;text-align:left;cursor:pointer;letter-spacing:0.02em;">Share link — send via WhatsApp, Telegram, IG</button>
-      <button id="sheet-story" style="background:rgba(250,248,245,0.04);border:0.5px solid rgba(250,248,245,0.08);border-radius:12px;padding:14px 16px;color:rgba(250,248,245,0.7);font-size:13px;font-family:'DM Sans',sans-serif;text-align:left;cursor:pointer;letter-spacing:0.02em;">Save Story card — screenshot for IG · TikTok</button>
-      <button id="sheet-copy" style="background:rgba(250,248,245,0.04);border:0.5px solid rgba(250,248,245,0.08);border-radius:12px;padding:14px 16px;color:rgba(250,248,245,0.7);font-size:13px;font-family:'DM Sans',sans-serif;text-align:left;cursor:pointer;letter-spacing:0.02em;">Copy link</button>
-    </div>
-    <button id="sheet-close" style="margin-top:16px;width:100%;background:transparent;border:none;color:rgba(250,248,245,0.25);font-size:12px;font-family:'DM Sans',sans-serif;padding:8px;cursor:pointer;letter-spacing:0.06em;">CLOSE</button>
-  </div>
-</div>
+
 
           <p class="logo">HS Music Studio</p>
 
