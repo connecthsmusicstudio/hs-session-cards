@@ -529,7 +529,13 @@
 
   // Render stat "what does this mean?" link
   function statLink(anchor) {
-    return `https://hsmusicstudio.sg/vocal-guide#${anchor}`;
+    const links = {
+      'highest-note': 'https://hsmusic.studio/blogs/learn/what-is-vocal-range',
+      'lowest-note':  'https://hsmusic.studio/blogs/learn/what-is-vocal-range',
+      'voice-type':   'https://hsmusic.studio/blogs/learn/what-is-my-voice-type',
+      'the-flip':     'https://hsmusic.studio/blogs/learn/what-is-the-flip-in-singing',
+    };
+    return links[anchor] || 'https://hsmusic.studio/blogs/learn';
   }
 
   // Render the full card
