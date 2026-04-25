@@ -527,13 +527,7 @@
 
   // Render stat "what does this mean?" link
   function statLink(anchor) {
-    const links = {
-      'voice-type':   'https://hsmusic.studio/blogs/learn/what-is-my-voice-type',
-      'the-flip':     'https://hsmusic.studio/blogs/learn/what-is-the-flip-in-singing',
-      'highest-note': 'https://hsmusic.studio/blogs/learn/what-is-vocal-range',
-      'lowest-note':  'https://hsmusic.studio/blogs/learn/what-is-vocal-range',
-    };
-    return links[anchor] || 'https://hsmusic.studio/blogs/learn';
+    return `https://hsmusicstudio.sg/vocal-guide#${anchor}`;
   }
 
   // Render the full card
@@ -600,7 +594,7 @@ const diffMap = {
                 <line x1="8" y1="21" x2="16" y2="21"/>
               </svg>
             </div>
-            <span class="hero-song">${f['Song / Project Title'] || ''}</span>
+            <span class="hero-song">${f['Song/Project Title'] || ''}</span>
           </div>
         </div>
 
@@ -833,7 +827,7 @@ const diffMap = {
               ${f['Client name (secondary)']}
             </p>` : ''}
             <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(0.9rem,3.8vw,1.4rem);color:#faf8f5;opacity:0.55;margin-top:clamp(0.4rem,2vw,0.7rem);">
-              ${f['Song / Project Title'] || ''}
+              ${f['Song/Project Title'] || ''}
             </p>
           </div>
 
