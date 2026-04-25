@@ -156,13 +156,19 @@
   }
 
   .hero-song {
+    display: inline-block;
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 500;
-    color: rgba(250,248,245,0.85);
-    letter-spacing: 0.06em;
-    text-shadow: 0 1px 8px rgba(13,11,8,0.6);
+    color: rgba(250,248,245,0.9);
+    letter-spacing: 0.08em;
+    background: rgba(13,11,8,0.45);
+    border: 1px solid rgba(250,248,245,0.15);
+    border-radius: 20px;
+    padding: 4px 14px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
   }
 
   /* ─── BODY ─── */
@@ -594,22 +600,22 @@ const diffMap = {
           <span class="hero-tag">${sessionType === 'Studio Experience' ? 'Studio Experience · 一日歌手' : sessionType}</span>
           <span class="hero-date">${formatDate(f['Session Date'])}${f['Room'] ? ' · ' + f['Room'] : ''}</span>
           <div class="hero-content" id="hero-content">
-  <div class="hero-icon" id="hero-icon" style="${f['Session Photo URL'] ? 'opacity:0.15; background:transparent; border-color:rgba(196,154,108,0.15);' : ''}">
+            ${f['Session Photo URL'] ? '' : `<div class="hero-icon" id="hero-icon">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c49a6c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="9" y="2" width="6" height="12" rx="3"/>
                 <path d="M5 10a7 7 0 0 0 14 0"/>
                 <line x1="12" y1="17" x2="12" y2="21"/>
                 <line x1="8" y1="21" x2="16" y2="21"/>
               </svg>
-            </div>
-            <span class="hero-song">${f['Song/Project Title'] || ''}</span>
+            </div>`}
+            ${f['Song/Project Title'] ? `<span class="hero-song">${f['Song/Project Title']}</span>` : ''}
           </div>
         </div>
 
         <div class="body">
 
           <p class="client-name">${f['Client Name'] || ''}</p>
-          ${f['Client name (secondary)'] ? `<p class="client-name-secondary">${f['Client name (secondary)']}</p>` : '<div style="margin-bottom:20px;"></div>'}
+          ${(f['Client name (secondary)'] || f['Client Name (Secondary)']) ? `<p class="client-name-secondary">${f['Client name (secondary)'] || f['Client Name (Secondary)']}</p>` : '<div style="margin-bottom:20px;"></div>'}
 
           <p class="section-label">Your voice · 你的声音数据</p>
 
@@ -830,9 +836,9 @@ const diffMap = {
             <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,13vw,6.5rem);font-weight:300;color:#faf8f5;line-height:0.9;letter-spacing:-0.01em;">
               ${f['Client Name'] || ''}
             </p>
-            ${f['Client name (secondary)'] ? `
+            ${(f['Client name (secondary)'] || f['Client Name (Secondary)']) ? `
             <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,6vw,3.2rem);font-weight:300;color:#e8c99a;letter-spacing:0.05em;margin-top:0.18em;">
-              ${f['Client name (secondary)']}
+              ${f['Client name (secondary)'] || f['Client Name (Secondary)']}
             </p>` : ''}
             <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(0.9rem,3.8vw,1.4rem);color:#faf8f5;opacity:0.55;margin-top:clamp(0.4rem,2vw,0.7rem);">
               ${f['Song/Project Title'] || ''}
