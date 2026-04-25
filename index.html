@@ -558,8 +558,8 @@ const diffMap = {
     const isProduction = sessionType === 'Production';
     const days = daysSince(f['Session Date']);
     const rebookActive = f['Rebook Offer Active'] !== false;
-    const daysLeft = 10 - days;
-    const rebookExpired = days > 10 || !rebookActive;
+    const daysLeft = 14 - days;
+    const rebookExpired = days > 14 || !rebookActive;
 
     // Hero photo
     const photoStyle = f['Session Photo URL']
@@ -658,7 +658,7 @@ const diffMap = {
           <div class="cta-box ${rebookExpired ? 'expired' : ''}">
             <div>
               <p class="cta-eyebrow">
-                ${rebookExpired ? 'See you next time · 期待下次' : 'Rebook within 10 days · 10天内重新预约'}
+                ${rebookExpired ? 'See you next time · 期待下次' : 'Rebook within 14 days · 14天内重新预约'}
               </p>
               <p class="cta-gift">
                 ${rebookExpired ? 'Your card is saved forever' : getGift(sessionType).en}
